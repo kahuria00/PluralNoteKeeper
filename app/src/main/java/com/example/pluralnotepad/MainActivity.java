@@ -1,5 +1,6 @@
 package com.example.pluralnotepad;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
     Spinner spinner_courses;
     EditText text_note_text;
     EditText text_note_title;
+    public static final String NOTE_INFO="com.example.pluralnotepad.NOTE_INFO";
+    private NoteInfo mNote;
+    private boolean isNewNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,25 @@ public class MainActivity extends AppCompatActivity {
         spinner_courses.setAdapter(adapterCourses);
 
 
+        readDisplayStateValues();
+        if (!isNewNote)
+            displayNotes(spinner_courses, text_note_title,text_note_text);
+            isNewNote = mNote==null;
+
+
+    }
+
+    private void displayNotes(Spinner spinner_courses, EditText text_note_title, EditText text_note_text) {
+        List<CourseInfo> courses=DataManager.getInstance().getCourses();
+        int courseIndex=courses.indexOf(mNote.getCourse());
+        spinner_courses.setSelection(courseIndex);
+        text_note_title.setText(mNote.getTitle());
+        text_note_text.setText(mNote.getText());
+    }
+
+    private void readDisplayStateValues() {
+        Intent intent=getIntent();
+        mNote = intent.getParcelableExtra(NOTE_INFO);
     }
 
     @Override
