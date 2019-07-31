@@ -79,7 +79,7 @@ public final class NoteInfo implements Parcelable {
     }
 
     @Override
-    public void writeToParcel(Parcel dest, int i) {
+    public void writeToParcel(Parcel dest, int size) {
         dest.writeParcelable(mCourse,0);
         dest.writeString(mTitle);
         dest.writeString(mText);
